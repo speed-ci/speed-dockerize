@@ -19,8 +19,10 @@ OLD_IMAGE_ID=$(docker images -q $IMAGE)
 docker build $ARGS \
              --build-arg http_proxy=$PROXY  \
              --build-arg https_proxy=$PROXY \
+             --build-arg no_proxy=$NO_PROXY \
              --build-arg HTTP_PROXY=$PROXY  \
              --build-arg HTTPS_PROXY=$PROXY \
+             --build-arg NO_PROXY=$NO_PROXY  \
        -f Dockerfile -t $IMAGE .
 NEW_IMAGE_ID=$(docker images -q $IMAGE)
 
