@@ -12,7 +12,7 @@ check_docker_env
 
 ARGS=${ARGS:-""}
 TAG=${TAG:-"latest"}
-IMAGE=$ARTIFACTORY_DOCKER_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$TAG
+IMAGE=$ARTIFACTORY_DOCKER_REGISTRY/$PROJECT_NAMESPACE/$PROJECT_NAME:$TAG
 
 printstep "Création de la nouvelle image Docker"
 OLD_IMAGE_ID=$(docker images -q $IMAGE)
