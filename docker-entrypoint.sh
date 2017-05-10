@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+source /init.sh
+
 printmainstep "Dockerisation de l'application"
 printstep "Vérification des paramètres d'entrée"
 docker version
