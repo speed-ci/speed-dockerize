@@ -10,6 +10,9 @@ init_env
 
 check_docker_env
 
+echo "ARGS: $ARGS"
+echo "TAG: $TAG"
+
 ARGS=${ARGS:-""}
 TAG=${TAG:-"latest"}
 IMAGE=$ARTIFACTORY_DOCKER_REGISTRY/$PROJECT_NAMESPACE/$PROJECT_NAME:$TAG
