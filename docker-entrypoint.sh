@@ -14,6 +14,7 @@ ARGS=${ARGS:-""}
 TAG=${TAG:-"latest"}
 IMAGE=$ARTIFACTORY_DOCKER_REGISTRY/$PROJECT_NAMESPACE/$PROJECT_NAME:$TAG
 
+echo ""
 printinfo "ARGS       : $ARGS"
 printinfo "DOCKERFILE : $DOCKERFILE"
 printinfo "IMAGE      : $IMAGE"
