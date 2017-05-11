@@ -14,6 +14,13 @@ ARGS=${ARGS:-""}
 TAG=${TAG:-"latest"}
 IMAGE=$ARTIFACTORY_DOCKER_REGISTRY/$PROJECT_NAMESPACE/$PROJECT_NAME:$TAG
 
+printinfo "ARGS       : $ARGS"
+printinfo "DOCKERFILE : $DOCKERFILE"
+printinfo "IMAGE      : $IMAGE"
+printinfo "PROXY      : $PROXY"
+printinfo "NO_PROXY   : $NO_PROXY"
+
+
 printstep "Création de la nouvelle image Docker"
 OLD_IMAGE_ID=$(docker images -q $IMAGE)
 docker build $ARGS \
