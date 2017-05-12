@@ -39,7 +39,7 @@ if [[ "$OLD_IMAGE_ID" != "$NEW_IMAGE_ID" ]]; then
     docker login -u $ARTIFACTORY_USER -p $ARTIFACTORY_PASSWORD $ARTIFACTORY_DOCKER_REGISTRY
     docker push $IMAGE
     printstep "Suppression de l'image Docker précédente du cache local"
-    if [[ -n "$OLD_IMAGE_ID" ]] && [[ $NB_DEPENDENT_CHILD_IMAGES -ne 0 ]]; then 
+    if [[ -n "$OLD_IMAGE_ID" ]]; then 
         NB_DEPENDENT_CHILD_IMAGES=`docker inspect --format='{{.Id}} {{.Parent}}' $(docker images --filter since=$OLD_IMAGE_ID -q) | wc -l`
         if [[ $NB_DEPENDENT_CHILD_IMAGES -ne 0 ]]; then docker rmi $OLD_IMAGE_ID; fi
     fi
