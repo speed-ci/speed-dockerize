@@ -11,7 +11,7 @@ build:
   script:
     - docker login -u $ARTIFACTORY_CI_USER -p $ARTIFACTORY_CI_PASSWORD $ARTIFACTORY_DOCKER_REGISTRY
     - OLD_IMG=$(docker images -q $IMG)
-    - docker build --build-arg http_proxy=$PROXY -t $IMG .
+    - docker build --build-arg http_proxy=$PROXY --build-arg no_proxy=$NO_PROXY -t $IMG .
     - docker push $IMG
     - if [[ "$OLD_IMG" != "" ]];then docker rmi -f $OLD_IMG ;fi
   only:
