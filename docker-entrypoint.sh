@@ -11,6 +11,8 @@ Usage: docker run [OPTIONS] docker-artifactory.sln.nc/speed/speed-dockerize
 
 Dockerizer l'application du répertoire courant
 Le fichier Dockerfile doit être présent à la racine du projet
+L'action de dockérizer consiste à prendre des fichiers plats en entrée et générer une image docker en sortie.
+Le nom de l'image est déduit de l'url Gitlab remote origin, il y a donc correspondance entre les noms de groupes et de projets entre Gitlab et Artifactory
 
 Options:
   -e ARTIFACTORY_URL=string                         URL d'Artifactory (ex: https://artifactory.sln.nc)
@@ -18,8 +20,8 @@ Options:
   -e ARTIFACTORY_PASSWORD=string                    Mot de passe d'accès à Artifactory
   -e PUBLISH=boolean                                Activer la publication de l'image docker sur Artifactory (default: false)
   -env-file ~/speed.env                             Fichier contenant les variables d'environnement précédentes
-  -v \$(pwd):/srv/speed                              Bind mount du répertoire racine de l'application à compiler
-  -v /var/run/docker.sock:/var/run/docker.sock      Bind mount de la socket docker pour le lancement de commande docker lors de la compilation
+  -v \$(pwd):/srv/speed                              Bind mount du répertoire racine de l'application à dockérizer
+  -v /var/run/docker.sock:/var/run/docker.sock      Bind mount de la socket docker pour le lancement de commandes docker lors de la compilation
 END
 }
 
