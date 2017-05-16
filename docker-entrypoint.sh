@@ -42,6 +42,7 @@ check_docker_env
 ARGS=${ARGS:-""}
 TAG=${TAG:-"latest"}
 IMAGE=$ARTIFACTORY_DOCKER_REGISTRY/$PROJECT_NAMESPACE/$PROJECT_NAME:$TAG
+PUBLISH=${PUBLISH:-"false"}
 
 echo ""
 printinfo "ARGS       : $ARGS"
@@ -49,7 +50,7 @@ printinfo "DOCKERFILE : $DOCKERFILE"
 printinfo "IMAGE      : $IMAGE"
 printinfo "PROXY      : $PROXY"
 printinfo "NO_PROXY   : $NO_PROXY"
-
+printinfo "PUBLISH    : $PUBLISH"
 
 printstep "Création de la nouvelle image Docker"
 OLD_IMAGE_ID=$(docker images -q $IMAGE)
@@ -64,9 +65,13 @@ docker build $ARGS \
 NEW_IMAGE_ID=$(docker images -q $IMAGE)
 
 if [[ "$OLD_IMAGE_ID" != "$NEW_IMAGE_ID" ]]; then
-    printstep "Publication de la nouvelle image Docker dans Artifactory"
-    docker login -u $ARTIFACTORY_USER -p $ARTIFACTORY_PASSWORD $ARTIFACTORY_DOCKER_REGISTRY
-    docker push $IMAGE
+
+    if [[ "$PUBLISH" == "true" ]]; then
+        printstep "Publication de la nouvelle image Docker dans Artifactory"
+        docker login -u $ARTIFACTORY_USER -p $ARTIFACTORY_PASSWORD $ARTIFACTORY_DOCKER_REGISTRY
+        docker push $IMAGE
+    fi
+
     printstep "Suppression de l'image Docker précédente du cache local"
     if [[ -n "$OLD_IMAGE_ID" ]]; then 
         NB_DEPENDENT_CHILD_IMAGES=`docker inspect --format='{{.Id}} {{.Parent}}' $(docker images --filter since=$OLD_IMAGE_ID -q) | wc -l`
