@@ -13,7 +13,7 @@ build:
     - OLD_IMG=$(docker images -q $IMG)
     - docker build --build-arg http_proxy=$PROXY --build-arg no_proxy=$NO_PROXY -t $IMG .
     - docker push $IMG
-    - if [[ "$OLD_IMG" != "" ]];then docker rmi -f $OLD_IMG ;fi
+    - if [[ "$OLD_IMG" != "" ]];then docker rmi -f $OLD_IMG || true ;fi
   only:
     - master    
   tags:
