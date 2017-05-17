@@ -72,7 +72,7 @@ NEW_IMAGE_ID=$(docker inspect $IMAGE | jq .[0].Id | tr -d '"')
 
 if [[ "$PUBLISH" == "true" ]]; then
     printstep "Publication de la nouvelle image Docker dans Artifactory"
-    ARTIFACTORY_IMAGE_ID=`curl -u $ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD --silent --noproxy '*' "$ARTIFACTORY_URL/artifactory/docker/$PROJECT_NAMESPACE/$PROJECT_NAME:$TAG/manifest.json" | jq .config.digest | tr -d '"'
+    ARTIFACTORY_IMAGE_ID=`curl -u $ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD --silent --noproxy '*' "$ARTIFACTORY_URL/artifactory/docker/$PROJECT_NAMESPACE/$PROJECT_NAME/$TAG/manifest.json" | jq .config.digest | tr -d '"'
 `
     if [[ "$ARTIFACTORY_IMAGE_ID" != "$NEW_IMAGE_ID" ]]; then
         docker login -u $ARTIFACTORY_USER -p $ARTIFACTORY_PASSWORD $ARTIFACTORY_DOCKER_REGISTRY
