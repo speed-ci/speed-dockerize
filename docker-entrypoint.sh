@@ -59,7 +59,7 @@ printinfo "NO_CACHE   : $NO_CACHE"
 if [[ "$NO_CACHE" == "true" ]]; then ARGS="--no-cache"; fi
 
 printstep "Création de la nouvelle image Docker"
-OLD_IMAGE_ID=$(docker images -q $IMAGE)
+OLD_IMAGE_ID=$(docker inspect $IMAGE | jq .[0].Id | tr -d '"')
 docker build $ARGS \
              --build-arg http_proxy=$PROXY  \
              --build-arg https_proxy=$PROXY \
@@ -68,20 +68,21 @@ docker build $ARGS \
              --build-arg HTTPS_PROXY=$PROXY \
              --build-arg NO_PROXY=$NO_PROXY  \
        -f Dockerfile -t $IMAGE .
-NEW_IMAGE_ID=$(docker images -q $IMAGE)
+NEW_IMAGE_ID=$(docker inspect $IMAGE | jq .[0].Id | tr -d '"')
 
-if [[ "$OLD_IMAGE_ID" != "$NEW_IMAGE_ID" ]]; then
-
-    if [[ "$PUBLISH" == "true" ]]; then
-        printstep "Publication de la nouvelle image Docker dans Artifactory"
+if [[ "$PUBLISH" == "true" ]]; then
+    printstep "Publication de la nouvelle image Docker dans Artifactory"
+    ARTIFACTORY_IMAGE_ID=`curl -u $ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD --silent --noproxy '*' "$ARTIFACTORY_URL/artifactory/docker/$PROJECT_NAMESPACE/$PROJECT_NAME:$TAG/manifest.json" | jq .config.digest | tr -d '"'
+`
+    if [[ "$ARTIFACTORY_IMAGE_ID" != "$NEW_IMAGE_ID" ]]; then
         docker login -u $ARTIFACTORY_USER -p $ARTIFACTORY_PASSWORD $ARTIFACTORY_DOCKER_REGISTRY
         docker push $IMAGE
-    fi
+    else
+       printinfo "Nouvelle image docker identique à la précédente, docker push inutile"
+    fi    
+fi
 
+if [[ "$OLD_IMAGE_ID" != "$NEW_IMAGE_ID" ]]; then
     printstep "Suppression de l'image Docker précédente du cache local"
-    if [[ -n "$OLD_IMAGE_ID" ]]; then 
-        docker rmi $OLD_IMAGE_ID || true
-    fi
-else
-   printinfo "Nouvelle image docker identique à la précédente, docker push inutile"
+    if [[ -n "$OLD_IMAGE_ID" ]]; then docker rmi $OLD_IMAGE_ID || true; fi
 fi
