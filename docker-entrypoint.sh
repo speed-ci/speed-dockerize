@@ -68,7 +68,7 @@ docker build $ARGS \
              --build-arg HTTP_PROXY=$PROXY  \
              --build-arg HTTPS_PROXY=$PROXY \
              --build-arg NO_PROXY=$NO_PROXY  \
-       -f Dockerfile -t $IMAGE .
+       -f $DOCKERFILE -t $IMAGE .
 NEW_IMAGE_ID=$(docker inspect $IMAGE | jq .[0].Id | tr -d '"')
 
 if [[ "$PUBLISH" == "true" ]]; then
