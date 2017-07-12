@@ -55,6 +55,7 @@ printinfo "PROXY      : $PROXY"
 printinfo "NO_PROXY   : $NO_PROXY"
 printinfo "PUBLISH    : $PUBLISH"
 printinfo "NO_CACHE   : $NO_CACHE"
+printinfo "ARTIFACT   : $ARTIFACT"
 
 if [[ "$NO_CACHE" == "true" ]]; then ARGS="--no-cache"; fi
 if [[ "$ARTIFACT" != "" ]]; then ARGS="$ARGS --build-arg ARTIFACT=$ARTIFACT"; fi
