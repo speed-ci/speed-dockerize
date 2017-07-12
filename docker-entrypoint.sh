@@ -57,6 +57,7 @@ printinfo "PUBLISH    : $PUBLISH"
 printinfo "NO_CACHE   : $NO_CACHE"
 
 if [[ "$NO_CACHE" == "true" ]]; then ARGS="--no-cache"; fi
+if [[ "$ARTIFACT" != "" ]]; then ARGS="$ARGS --build-arg ARTIFACT=$ARTIFACT"; fi
 
 printstep "Création de la nouvelle image Docker"
 docker login -u $ARTIFACTORY_USER -p $ARTIFACTORY_PASSWORD $ARTIFACTORY_DOCKER_REGISTRY
