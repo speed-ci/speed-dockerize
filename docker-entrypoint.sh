@@ -69,10 +69,7 @@ docker build $ARGS \
              --build-arg no_proxy=$NO_PROXY \
              --build-arg HTTP_PROXY=$PROXY  \
              --build-arg HTTPS_PROXY=$PROXY \
-             --build-arg NO_PROXY=$NO_PROXY \
-             --build-arg ARTIFACTORY_URL=$ARTIFACTORY_URL \
-             --build-arg ARTIFACTORY_USER=$ARTIFACTORY_USER \
-             --build-arg ARTIFACTORY_PASSWORD=$ARTIFACTORY_PASSWORD \
+             --build-arg NO_PROXY=$NO_PROXY  \
        -f $DOCKERFILE -t $IMAGE .
 NEW_IMAGE_ID=$(docker inspect $IMAGE | jq .[0].Id | tr -d '"')
 
