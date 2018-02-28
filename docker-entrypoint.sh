@@ -20,7 +20,7 @@ Options:
   -e ARTIFACTORY_PASSWORD=string                    Mot de passe d'accès à Artifactory
   -e PUBLISH=boolean                                Activer la publication de l'image docker sur Artifactory (default: false)
   -e NO_CACHE=boolean                               Désactiver l'utilisation du cache lors du docker build (default: false)  
-  --env-file ~/speed.env                             Fichier contenant les variables d'environnement précédentes
+  --env-file ~/speed.env                            Fichier contenant les variables d'environnement précédentes
   -v \$(pwd):/srv/speed                              Bind mount du répertoire racine de l'application à dockérizer
   -v /var/run/docker.sock:/var/run/docker.sock      Bind mount de la socket docker pour le lancement de commandes docker lors de la dockérization
 END
