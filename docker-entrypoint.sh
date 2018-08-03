@@ -61,6 +61,7 @@ printinfo "ARTIFACT   : $ARTIFACT"
 
 if [[ "$NO_CACHE" == "true" ]]; then ARGS="--no-cache"; fi
 if [[ "$ARTIFACT" != "" ]]; then ARGS="$ARGS --build-arg ARTIFACT=$ARTIFACT"; fi
+if [[ "$TAG" != "" ]]; then ARGS="$ARGS --build-arg TAG=$TAG"; fi
 
 printstep "Création de la nouvelle image Docker"
 docker login -u $ARTIFACTORY_USER -p $ARTIFACTORY_PASSWORD $ARTIFACTORY_DOCKER_REGISTRY
